@@ -1,8 +1,12 @@
 // importing all necessary files
 const express = require("express");
 const mongoose = require("mongoose");
+const { ConnectToDatabase } = require("./Database/database");
 // initializing the env file
 require("dotenv").config();
+
+//database connection function
+ConnectToDatabase(process.env.DB_URL);
 
 // creating express application name app
 const app = express();
