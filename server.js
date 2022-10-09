@@ -1,11 +1,11 @@
 // importing all necessary files
 const express = require("express");
-const mongoose = require("mongoose");
+const cors = require("cors");
 const { ConnectToDatabase } = require("./Database/database");
 // initializing the env file
 require("dotenv").config();
 
-//database connection function
+// Connecting to the database
 ConnectToDatabase(process.env.DB_URL);
 
 // creating express application name app
@@ -14,7 +14,11 @@ const app = express();
 // getting the port from env file
 const port = process.env.PORT || 8080;
 
+// middlewares
+app.use(cors());
+app.use(express.json());
 
+// listening the port of application
 app.listen(port, () => {
   console.log(`The server is running on http://localhost:${port}/api`);
 });
