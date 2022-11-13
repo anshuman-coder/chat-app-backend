@@ -17,6 +17,20 @@ const registerUser = async (req, res) => {
   }
 }
 
+const loginUser = async (req, res) => { 
+  try {
+    const { email, password } = req.body;
+    if (!email) return failResponse(req, res, 400, "no Email!");
+    if (!password) return failResponse(req, res, 400, "no password!");
+
+    const result = await publicFuncs.loginUser({ email, password });
+    return successResponse(req, res, result);
+  } catch (error) {
+    return errorResponse(req, res, 500, error);
+  }
+}
+
 module.exports = {
-  registerUser
+  registerUser,
+  loginUser
 };

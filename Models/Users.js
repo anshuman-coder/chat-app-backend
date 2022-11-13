@@ -14,6 +14,11 @@ const UsersSchema = new Schema({
     require: true,
     unique: true
   },
+  profileImage: {
+    type: String,
+    default: null,
+    require: false
+  },
   password: {
     type: String,
     require: true

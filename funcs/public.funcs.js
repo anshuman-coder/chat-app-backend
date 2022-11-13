@@ -30,6 +30,33 @@ const registerUser = async (userData) => {
   return signedUpUser;
 };
 
+const loginUser = async (credential) => { 
+  const { email, password } = credential;
+
+  const logUser = await Users.findOne({ email });
+  if (!logUser) return "noUser"
+
+  const encryptedPassword = crypto.createHash("md5").update(password).digest("hex");
+
+  if (encryptedPassword !== logUser.password) { 
+    return "unmatchedPassword"
+  }
+
+  let loggedInUser = new Object({
+    id: logUser._id,
+    userName: logUser.userName,
+    email: logUser.email,
+    profileImage: logUser.profileImage
+  });
+
+  const token = jwt.sign(loggedInUser, process.env.JWT_SECRET_KEY, { expiresIn: "48h" });
+
+  loggedInUser.token = token;
+
+  return loggedInUser;
+}
+
 module.exports = {
-  registerUser
+  registerUser,
+  loginUser
 }
